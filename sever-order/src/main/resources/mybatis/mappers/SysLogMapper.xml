@@ -6,4 +6,33 @@
     <delete id="deleteLog" parameterType="java.lang.Integer">
         delete from sys_logs where id = #{id};
     </delete>
+
+    <!-- 借助此元素对共性数据进行提取 -->
+    <sql id="queryWhereId">
+        <where>
+            <if test="username!=null and username!=''">
+                username like concat("%",#{username},"%")
+            </if>
+        </where>
+    </sql>
+
+
+    <select id="findPageObjects"
+            resultType="com.szdq.tm.severorder.po.OrderDetailPO">
+        select  *
+        from order_detail
+        <include refid="queryWhereId"/>
+        order by createdTime desc
+        limit #{startIndex},#{pageSize}
+    </select>
+
+    <select id="getRowCount"
+            resultType="int">
+        select  count(*)
+        from order_detail
+        <include refid="queryWhereId"/>
+    </select>
+    <select id="queryStudentsByPage" parameterType="map" resultMap="sysLogDao">
+        select * from student
+    </select>
 </mapper>

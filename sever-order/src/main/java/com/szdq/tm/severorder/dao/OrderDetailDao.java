@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
+
 
 @Mapper
 @Repository
@@ -26,6 +26,5 @@ public interface OrderDetailDao {
 
     @Select("SELECT id,status,address,account_id accountId, product_id productId,deliveryman_id deliverymanId," +
             "settlement_id settlementId,reward_id rewardId,price, date FROM order_detail WHERE id = #{id}")
-    @Cacheable()
     OrderDetailPO selectOrder(Integer id);
 }

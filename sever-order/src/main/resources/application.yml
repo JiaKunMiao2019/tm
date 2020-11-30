@@ -32,3 +32,5 @@ mybatis:
     default-statement-timeout: 30
     map-underscore-to-camel-case: true
   mapper-locations: classpath:/mybatis/mappers/*.xml
+#  config-location: classpath:mybatis-config.xml
+#  type-aliases-package: com.szdq.tm.serverorder
