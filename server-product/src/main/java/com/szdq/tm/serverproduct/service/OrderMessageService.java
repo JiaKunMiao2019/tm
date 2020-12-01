@@ -75,9 +75,9 @@ public class OrderMessageService {
                     false,
                     null);
             Map<String,Object> args = new HashMap<>(16);
-            args.put("x-max-length",60);
-            args.put("x-message-ttl",15000);//为队列设置超时时间，注意此时的mq需要没有这个队列才能设置
-            args.put("x-dead-letter-exchange","exchange.dlx");//设置死信发送的队列,进入死信的情况：消息过期，消息拒绝的，超过队列最大长度
+        args.put("x-max-length",60);
+        args.put("x-message-ttl",15000);//为队列设置超时时间，注意此时的mq需要没有这个队列才能设置
+        args.put("x-dead-letter-exchange","exchange.dlx");//设置死信发送的队列,进入死信的情况：消息过期，消息拒绝的，超过队列最大长度
         channel.queueDeclare(
                     "queue.restaurant",
                     true,
@@ -136,7 +136,8 @@ public class OrderMessageService {
                 Thread.sleep(3000);
                 channel.basicAck(message.getEnvelope().getDeliveryTag(),false);//手动消费，不重回队列
                 String messageToSend = objectMapper.writeValueAsString(orderMessageDTO);
-                channel.basicPublish("exchange.order.restaurant", "key.order", null, messageToSend.getBytes());
+                AMQP.BasicProperties properties = new AMQP.BasicProperties().builder().expiration("15000").build();
+                channel.basicPublish("exchange.order.restaurant", "key.order",true, properties, messageToSend.getBytes());
 
                 Thread.sleep(1000);
 
