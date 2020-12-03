@@ -34,4 +34,6 @@ public class QRCommonBO {
     String content;
     //保存地址
     String path;
+    //二维码名称
+    String qrCodeName;
 }
